@@ -4,6 +4,20 @@
              xmlns:local="clr-namespace:GameLauncher"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+
+
+        
+        
+    <!--
+        Custom variables
+    -->
+        
+        <!-- Change these to binding during runtime so themes can be changed in the future -->
+        <SolidColorBrush x:Key="Background" Color="#424B54"/>
+        <SolidColorBrush x:Key="Foreground" Color="#FFEDDF" />
+        <SolidColorBrush x:Key="SelectablePrimary" Color="#C5D86D" />
+        <SolidColorBrush x:Key="SelectableSecondary" Color="#EF6351" />
+        <SolidColorBrush x:Key="SelectableLink" Color="#AFE0CE" />
     </Application.Resources>
 </Application>
