@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using GameLauncher.UserControls;
+using GameLauncher.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +21,11 @@ namespace GameLauncher
         public MainWindow()
         {
             InitializeComponent();
+            GameItemUC gameItemUC = new GameItemUC();
+            gameItemUC.Width = 750;
+            gameItemUC.Height = 800;
+            gameItemUC.DataContext = new GameItemVM() {Name = "Application" };
+            placehere.Children.Add(gameItemUC);
         }
     }
 }

@@ -10,9 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
-    <Folder Include="UserControls\" />
     <Folder Include="VariableControllers\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
