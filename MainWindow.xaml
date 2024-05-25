@@ -3,10 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameLauncher"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:GameLauncher" Background="{x:Null}" AllowsTransparency="True" 
+        mc:Ignorable="d" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Title="MainWindow" Height="1080" Width="1920">
-    <Grid x:Name="placehere">
-        
-    </Grid>
+    <Border CornerRadius="5" Background="{StaticResource Background}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Name="TopBar" MouseLeftButtonDown="TopBar_MouseLeftButtonDown" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="7" Height="{Binding ElementName=TopBar, Path=ActualHeight}" Content="X" FontSize="30" Click="Exit_Click"/>
+            </Grid> 
+            <Grid Grid.Row="1" Name="placehere">
+            
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

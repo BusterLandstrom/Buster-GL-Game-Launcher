@@ -30,7 +30,7 @@ namespace GameLauncher.ViewModels
             }
         }
 
-        private string _exe;
+        private string _exe; // Path to exe launcher
         public string Exe
         {
             get { return _exe; }
@@ -49,6 +49,17 @@ namespace GameLauncher.ViewModels
             {
                 _picture = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Picture)));
+            }
+        }
+
+        private string _platform; // E.g. Steam, Origin, Local, etc.
+        public string Platform 
+        {
+            get { return _platform; }
+            set 
+            {
+                _platform = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Platform)));
             }
         }
 
@@ -86,12 +97,12 @@ namespace GameLauncher.ViewModels
 
         public void RunGame()
         {
-            Process.Start(Exe);
+            Process.Start(Exe); // This needs admin to run (Try to prompt admin instead or run as admin upon launch)
         }
 
         public void DeleteGame()
         {
-            Debug.WriteLine("Deleted game");
+            Debug.WriteLine("Deleted game: " + Name);
         }
     }
 }
