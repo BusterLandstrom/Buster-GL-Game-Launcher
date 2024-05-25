@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using GameLauncher.VariableControllers;
 
 namespace GameLauncher.ViewModels
 {
@@ -51,12 +54,42 @@ namespace GameLauncher.ViewModels
 
 
 
-        private void RunGame(object sender, RoutedEventArgs e)
+        private ICommand _runGame;
+        public ICommand RunGameCommand
+        {
+            get { return _runGame; }
+            set
+            {
+                _runGame = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RunGameCommand)));
+            }
+        }
+
+        private ICommand _deleteGame;
+        public ICommand DeleteGameCommand
+        {
+            get { return _deleteGame; }
+            set
+            {
+                _deleteGame = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeleteGameCommand)));
+            }
+        }
+
+        public GameItemVM()
+        {
+            RunGameCommand = new RelayCommand(RunGame);
+            DeleteGameCommand = new RelayCommand(DeleteGame);
+        }
+
+
+
+        public void RunGame()
         {
             Process.Start(Exe);
         }
 
-        private void DeleteGame(object sender, RoutedEventArgs e)
+        public void DeleteGame()
         {
             Debug.WriteLine("Deleted game");
         }

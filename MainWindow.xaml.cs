@@ -24,7 +24,7 @@ namespace GameLauncher
             GameItemUC gameItemUC = new GameItemUC();
             gameItemUC.Width = 750;
             gameItemUC.Height = 800;
-            gameItemUC.DataContext = new GameItemVM() {Name = "Application" };
+            gameItemUC.DataContext = new GameItemVM() {Name = "Application", Exe = "C:\\Users\\Regian\\Downloads\\rufus-4.4.exe" };
             placehere.Children.Add(gameItemUC);
         }
     }

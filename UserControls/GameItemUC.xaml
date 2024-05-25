@@ -21,7 +21,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Content="{Binding DataContext.Name, RelativeSource={RelativeSource AncestorType=UserControl}}" FontSize="70" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <Button Style="{StaticResource RoundedButton}" FontSize="50" Content=" ▶ " Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-        <Button Style="{StaticResource RoundedButton}" FontSize="50" Content="🗑"  Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        <Button Style="{StaticResource RoundedPosButton}" Command="{Binding DataContext.RunGameCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" FontSize="50" Content=" ▶ " Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Button Style="{StaticResource RoundedNegButton}" Command="{Binding DataContext.DeleteGameCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" FontSize="50" Content="🗑"  Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>
