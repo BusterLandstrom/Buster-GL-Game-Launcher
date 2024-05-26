@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,9 +16,22 @@ namespace GameLauncher.ViewModels
 {
     class GameItemVM : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
 
+        private event PropertyChangedEventHandler _propertyChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add { _propertyChanged += value; }
+            remove { _propertyChanged -= value; }
+        }
         // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Variable))); This is how you handle properties being changed
+
+
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            _propertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private string _name;
         public string Name 
@@ -26,7 +40,7 @@ namespace GameLauncher.ViewModels
             set 
             {
                 _name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -37,7 +51,7 @@ namespace GameLauncher.ViewModels
             set
             {
                 _exe = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Exe)));
+                OnPropertyChanged(nameof(Exe));
             }
         }
 
@@ -48,7 +62,7 @@ namespace GameLauncher.ViewModels
             set 
             {
                 _picture = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Picture)));
+                OnPropertyChanged(nameof(Picture));
             }
         }
 
@@ -59,7 +73,7 @@ namespace GameLauncher.ViewModels
             set 
             {
                 _platform = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Platform)));
+                OnPropertyChanged(nameof(Platform));
             }
         }
 
@@ -72,7 +86,7 @@ namespace GameLauncher.ViewModels
             set
             {
                 _runGame = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RunGameCommand)));
+                OnPropertyChanged(nameof(RunGameCommand));
             }
         }
 
@@ -83,7 +97,7 @@ namespace GameLauncher.ViewModels
             set
             {
                 _deleteGame = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DeleteGameCommand)));
+                OnPropertyChanged(nameof(DeleteGameCommand));
             }
         }
 

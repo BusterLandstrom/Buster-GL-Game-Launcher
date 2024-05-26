@@ -5,25 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameLauncher" Background="{x:Null}" AllowsTransparency="True" 
         mc:Ignorable="d" WindowStyle="None" ResizeMode="CanResizeWithGrip"
-        Title="MainWindow" Height="1080" Width="1920">
+        Title="MainWindow" Height="1440" Width="2560">
     <Border CornerRadius="5" Background="{StaticResource Background}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="20*" />
+                <RowDefinition Height="30*" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Name="TopBar" MouseLeftButtonDown="TopBar_MouseLeftButtonDown" >
+            <Grid Grid.Row="0" Name="TopBar">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
+                    <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="7" Height="{Binding ElementName=TopBar, Path=ActualHeight}" Content="X" FontSize="30" Click="Exit_Click"/>
+                <Grid MouseLeftButtonDown="TopBar_MouseLeftButtonDown" Height="{Binding ElementName=TopBar, Path=ActualHeight}" Grid.Column="0" Grid.ColumnSpan="5">
+                    <Rectangle Height="Auto" Width="Auto" Fill="{StaticResource Background}" RadiusX="0,0,0,5" RadiusY="0,0,0,5"/>
+                </Grid>
+                <Button Grid.Column="7" Content="X" FontSize="30" Click="Exit_Click" />
+                <Button Grid.Column="6" Content="◱" FontSize="30" Click="Maximize_Click" />
+                <Button Grid.Column="5" Content="─" FontSize="30" Click="Minimize_Click" />
             </Grid> 
             <Grid Grid.Row="1" Name="placehere">
             
