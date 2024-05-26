@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameLauncher.Items
 {
-    internal class ProgramManager : INotifyPropertyChanged
+    public class ProgramManager : INotifyPropertyChanged
     {
         private event PropertyChangedEventHandler _propertyChanged;
 
@@ -36,6 +36,24 @@ namespace GameLauncher.Items
                 _currentTheme = value;
                 OnPropertyChanged(nameof(CurrentTheme));
             }
+        }
+
+        private AutoScaler _autoScaler;
+        public AutoScaler AutoScaler
+        {
+            get { return _autoScaler; }
+            set
+            {
+                _autoScaler = value;
+                OnPropertyChanged(nameof(AutoScaler));
+            }
+        }
+
+        public ProgramManager() 
+        {
+            CurrentTheme = new Theme() { BackgroundColor = "#424B54", ForegroundColor = "#FFEDDF", SelectableLinkColor = "#AFE0CE", SelectablePrimaryColor = "#C5D86D", SelectableSecondaryColor = "#EF6351" }; // Change in the future to load theme in a theme manager instead of program manager (for fonts etc also)
+            AutoScaler = new AutoScaler();
+
         }
     }
 }

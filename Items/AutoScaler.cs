@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameLauncher.Items
 {
-    class AutoScaler : INotifyPropertyChanged
+    public class AutoScaler : INotifyPropertyChanged
     {
         private event PropertyChangedEventHandler _propertyChanged;
 

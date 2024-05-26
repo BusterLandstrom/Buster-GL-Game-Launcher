@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameLauncher.Items
 {
-    class GameItem
+    public class GameItem
     {
+
     }
 }

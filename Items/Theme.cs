@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLauncher.Items
 {
-    internal class Theme
+    public class Theme
     {
         public required string BackgroundColor {  get; set; }
         public required string ForegroundColor { get; set; }

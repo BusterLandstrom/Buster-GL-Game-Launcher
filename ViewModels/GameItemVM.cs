@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using GameLauncher.Items;
 using GameLauncher.VariableControllers;
 
 namespace GameLauncher.ViewModels
@@ -101,13 +102,36 @@ namespace GameLauncher.ViewModels
             }
         }
 
+        private ICommand _updateElement;
+        public ICommand UpdateElementCommand
+        {
+            get { return _deleteGame; }
+            set
+            {
+                _updateElement = value;
+                OnPropertyChanged(nameof(UpdateElementCommand));
+            }
+        }
+
         public GameItemVM()
         {
             RunGameCommand = new RelayCommand(RunGame);
             DeleteGameCommand = new RelayCommand(DeleteGame);
+            UpdateElementCommand = new RelayTypeCommand<Grid>(UpdateElement);
         }
 
-
+        public void UpdateElement(Grid element) 
+        {
+            var app = Application.Current as App;
+            if ( app != null)
+            {
+                ProgramManager pm = app.PM;
+                int Width = pm.AutoScaler.CurrentResolution[0] * pm.AutoScaler.GetObjectSize((int)element.Width, (int)element.Height)[0]; // Fix to work more than once, make the width and height actually change correctly because now it is not working the way it should because it is only compared to the correct width, height on the first call of this function
+                int Height = pm.AutoScaler.CurrentResolution[1] * pm.AutoScaler.GetObjectSize((int)element.Width, (int)element.Height)[1];
+                element.Width = Width; element.Height = Height;
+                Debug.WriteLine(element.Width + ", " + element.Height);
+            }
+        }
 
         public void RunGame()
         {

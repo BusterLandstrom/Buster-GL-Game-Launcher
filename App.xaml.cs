@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using GameLauncher.Items;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,6 +10,13 @@ namespace GameLauncher
     /// </summary>
     public partial class App : Application
     {
+        public ProgramManager PM { get; set; } = new ProgramManager();
+
+        public App()
+        {
+            InitializeComponent();
+        }
+    
     }
 
 }
