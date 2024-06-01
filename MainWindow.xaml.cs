@@ -28,6 +28,7 @@ namespace GameLauncher
         {
             InitializeComponent();
 
+
             Games = new ObservableCollection<GameItemVM>
             {
                 new GameItemVM("Firewatch", @"F:\Games\Firewatch\Firewatch.exe"),
@@ -35,6 +36,7 @@ namespace GameLauncher
                 // Add more game items as needed
             };
             DataContext = this;
+            ((App)Application.Current).PM.MW = this;
             this.Loaded += MainWindow_Loaded;
             this.SizeChanged += MainWindow_SizeChanged;
         }
@@ -43,10 +45,11 @@ namespace GameLauncher
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // The set starting collection of grids availible for resizing (Change this to be more modular in the future and load later during runtime to include all children of the "placehere" grid e.g. menu and gameitemvms)
+            // The set starting collection of grids availible for resizing (Make resize system more modular in the future)
             List<Grid> myGrids = new List<Grid>
             {
-                TopBar
+                TopBar,
+                GameGrid
                 // Add all other Grids here
             };
 
@@ -136,7 +139,7 @@ namespace GameLauncher
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            switch (this.WindowState) // Toggles 
+            switch (this.WindowState) // Toggles Maximized function
             {
                 case WindowState.Maximized:
                     this.WindowState = WindowState.Normal;
@@ -160,6 +163,11 @@ namespace GameLauncher
         private void Wiki_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo { FileName = @"https://github.com/BusterLandstrom/Buster-GL-Game-Launcher/wiki", UseShellExecute = true });
+        }
+
+        private void Preferences_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsGrid.Visibility = Visibility.Visible;
         }
     }
 }

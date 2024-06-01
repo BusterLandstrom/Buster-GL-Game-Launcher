@@ -23,6 +23,13 @@ namespace GameLauncher.UserControls
         public SettingsView()
         {
             InitializeComponent();
+
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ((App)Application.Current).PM.MW.SettingsGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

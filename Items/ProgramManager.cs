@@ -50,6 +50,18 @@ namespace GameLauncher.Items
             }
         }
 
+        private MainWindow _mw;
+        public MainWindow MW 
+        { 
+            get { return _mw; } 
+            set 
+            { 
+                _mw = value;
+                OnPropertyChanged(nameof(MW));
+            }
+        
+        }
+
 
         private Dictionary<Grid, Tuple<int, int>> _initialDimensions;
         public Dictionary<Grid, Tuple<int, int>> InitialDimensions 

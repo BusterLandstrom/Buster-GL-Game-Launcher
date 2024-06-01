@@ -91,7 +91,7 @@
                 </Menu>
                 <Menu Grid.Column="1">
                     <MenuItem Header="Edit">
-                        <MenuItem Header="Preferences" />
+                        <MenuItem Header="Preferences" Click="Preferences_Click"/>
                     </MenuItem>
                 </Menu>
                 <Menu Grid.Column="2">
@@ -128,6 +128,10 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+            </Grid>
+
+            <Grid x:Name="SettingsGrid" Grid.Row="1" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1280" Height="800">
+                <uc:SettingsView x:Name="SettingsOverlay" />
             </Grid>
         </Grid>
     </Border>
