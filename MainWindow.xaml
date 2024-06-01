@@ -3,35 +3,131 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameLauncher" Background="{x:Null}" AllowsTransparency="True" 
+        xmlns:uc="clr-namespace:GameLauncher.UserControls"
+        xmlns:local="clr-namespace:GameLauncher"
+        Background="{x:Null}" AllowsTransparency="True" 
         mc:Ignorable="d" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Title="MainWindow" Height="1440" Width="2560">
+    <Window.Resources>
+        <!-- Custom Menu Style -->
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="{StaticResource Background}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <!-- Custom MenuItem Style -->
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter ContentSource="Header" />
+                                <Popup x:Name="SubMenuPopup"
+                                       Placement="Right"
+                                       IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       PopupAnimation="Fade">
+                                    <Border Background="{StaticResource Background}" 
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="True">
+                                        <StackPanel>
+                                            <ItemsPresenter />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource HighlightBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PressedBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsSubmenuOpen" Value="True">
+                                <Setter TargetName="SubMenuPopup" Property="IsOpen" Value="True"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Border CornerRadius="5" Background="{StaticResource Background}">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="30*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Name="TopBar">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
                     <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
                     <ColumnDefinition Width="{Binding ElementName=TopBar, Path=ActualHeight}"/>
                 </Grid.ColumnDefinitions>
-                <Grid MouseLeftButtonDown="TopBar_MouseLeftButtonDown" Height="{Binding ElementName=TopBar, Path=ActualHeight}" Grid.Column="0" Grid.ColumnSpan="5">
-                    <Rectangle Height="Auto" Width="Auto" Fill="{StaticResource Background}" RadiusX="0,0,0,5" RadiusY="0,0,0,5"/>
-                </Grid>
-                <Button Grid.Column="7" Content="X" FontSize="30" Click="Exit_Click" />
-                <Button Grid.Column="6" Content="◱" FontSize="30" Click="Maximize_Click" />
-                <Button Grid.Column="5" Content="─" FontSize="30" Click="Minimize_Click" />
-            </Grid> 
-            <Grid Grid.Row="1" Name="placehere">
-            
+
+                <!-- Menu -->
+                <Menu Grid.Column="0">
+                    <MenuItem Header="File">
+                        <MenuItem Header="Add game" />
+                        <MenuItem Header="Exit" Click="Exit_Click" />
+                    </MenuItem>
+                </Menu>
+                <Menu Grid.Column="1">
+                    <MenuItem Header="Edit">
+                        <MenuItem Header="Preferences" />
+                    </MenuItem>
+                </Menu>
+                <Menu Grid.Column="2">
+                    <MenuItem Header="View">
+                        <MenuItem Header="Zoom In" />
+                        <MenuItem Header="Zoom Out" />
+                    </MenuItem>
+                </Menu>
+                <Menu Grid.Column="3">
+                    <MenuItem Header="Help">
+                        <MenuItem Header="GitHub" Click="GitHub_Click"/>
+                        <MenuItem Header="Wiki" Click="Wiki_Click"/>
+                    </MenuItem>
+                </Menu>
+
+                <!-- Draggable Area -->
+                <Grid MouseLeftButtonDown="TopBar_MouseLeftButtonDown" Grid.Column="4" Background="Transparent"/>
+
+                <!-- Window Control Buttons -->
+                <Button Grid.Column="7" Content="X" FontSize="10" Click="Exit_Click" Style="{StaticResource MMCButton}" />
+                <Button Grid.Column="6" Content="◱" FontSize="10" Click="Maximize_Click" Style="{StaticResource MMCButton}" />
+                <Button Grid.Column="5" Content="─" FontSize="10" Click="Minimize_Click" Style="{StaticResource MMCButton}" />
+            </Grid>
+            <Grid Grid.Row="1" x:Name="GameGrid">
+                <ItemsControl ItemsSource="{Binding Games}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <uc:GameItemUC />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </Grid>
     </Border>

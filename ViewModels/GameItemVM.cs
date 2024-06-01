@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -10,12 +11,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using GameLauncher.Items;
 using GameLauncher.VariableControllers;
+using Image = System.Windows.Media.ImageSource;
+using System.Runtime.InteropServices;
 
 namespace GameLauncher.ViewModels
 {
-    class GameItemVM : INotifyPropertyChanged
+    public class GameItemVM : INotifyPropertyChanged
     {
 
         private event PropertyChangedEventHandler _propertyChanged;
@@ -25,14 +31,13 @@ namespace GameLauncher.ViewModels
             add { _propertyChanged += value; }
             remove { _propertyChanged -= value; }
         }
-        // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Variable))); This is how you handle properties being changed
-
-
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             _propertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        // Start of properties
 
         private string _name;
         public string Name 
@@ -78,6 +83,17 @@ namespace GameLauncher.ViewModels
             }
         }
 
+        private Image _gameIcon;
+        public Image GameIcon
+        {
+            get { return _gameIcon; }
+            set
+            {
+                _gameIcon = value;
+                OnPropertyChanged(nameof(GameIcon));
+            }
+        }
+
 
 
         private ICommand _runGame;
@@ -102,35 +118,37 @@ namespace GameLauncher.ViewModels
             }
         }
 
-        private ICommand _updateElement;
-        public ICommand UpdateElementCommand
+        public GameItemVM(string name, string exe)
         {
-            get { return _deleteGame; }
-            set
-            {
-                _updateElement = value;
-                OnPropertyChanged(nameof(UpdateElementCommand));
-            }
-        }
-
-        public GameItemVM()
-        {
+            Name = name;
+            Exe = exe;
+            Icon loadedIcon = Icon.ExtractAssociatedIcon(Exe);
+            GameIcon = ToImageSource(loadedIcon);
             RunGameCommand = new RelayCommand(RunGame);
             DeleteGameCommand = new RelayCommand(DeleteGame);
-            UpdateElementCommand = new RelayTypeCommand<Grid>(UpdateElement);
         }
 
-        public void UpdateElement(Grid element) 
+
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern bool DeleteObject(IntPtr hObject);
+        public static ImageSource ToImageSource(Icon icon)
         {
-            var app = Application.Current as App;
-            if ( app != null)
+            Bitmap bitmap = icon.ToBitmap();
+            IntPtr hBitmap = bitmap.GetHbitmap();
+
+            ImageSource wpfBitmap = Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap,
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            if (!DeleteObject(hBitmap))
             {
-                ProgramManager pm = app.PM;
-                int Width = pm.AutoScaler.CurrentResolution[0] * pm.AutoScaler.GetObjectSize((int)element.Width, (int)element.Height)[0]; // Fix to work more than once, make the width and height actually change correctly because now it is not working the way it should because it is only compared to the correct width, height on the first call of this function
-                int Height = pm.AutoScaler.CurrentResolution[1] * pm.AutoScaler.GetObjectSize((int)element.Width, (int)element.Height)[1];
-                element.Width = Width; element.Height = Height;
-                Debug.WriteLine(element.Width + ", " + element.Height);
+                throw new Win32Exception();
             }
+
+            return wpfBitmap;
         }
 
         public void RunGame()

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GameLauncher.Items
 {
@@ -49,10 +50,24 @@ namespace GameLauncher.Items
             }
         }
 
-        public ProgramManager() 
+
+        private Dictionary<Grid, Tuple<int, int>> _initialDimensions;
+        public Dictionary<Grid, Tuple<int, int>> InitialDimensions 
         {
-            CurrentTheme = new Theme() { BackgroundColor = "#424B54", ForegroundColor = "#FFEDDF", SelectableLinkColor = "#AFE0CE", SelectablePrimaryColor = "#C5D86D", SelectableSecondaryColor = "#EF6351" }; // Change in the future to load theme in a theme manager instead of program manager (for fonts etc also)
+            get { return _initialDimensions; }
+            set
+            {
+                _initialDimensions = value;
+                OnPropertyChanged(nameof(InitialDimensions));
+            }
+        }
+
+        public ProgramManager()
+        {
+            InitialDimensions = new Dictionary<Grid, Tuple<int, int>>();
             AutoScaler = new AutoScaler();
+            CurrentTheme = new Theme() { BackgroundColor = "#424B54", ForegroundColor = "#FFEDDF", SelectableLinkColor = "#AFE0CE", SelectablePrimaryColor = "#C5D86D", SelectableSecondaryColor = "#EF6351" }; // Change in the future to load theme in a theme manager instead of program manager (for fonts etc also)
+            
 
         }
     }

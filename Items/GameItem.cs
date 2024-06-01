@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLauncher.Items
 {
-    public class GameItem
+    public class GameItem // This script could become redundant and I will just use the VMs as the GameItems instead
     {
 
     }

@@ -10,6 +10,68 @@
     <!--
         Custom templates
     -->
+
+        <Style TargetType="Button" x:Key="MMCButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                Padding="10"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource HighlightBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PressedBackground}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style TargetType="{x:Type Grid}" x:Key="GridHover">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                 To="1.1" Duration="0:0:0.3"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                 To="1.1" Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                 To="1" Duration="0:0:0.3"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                                 To="1" Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
         <Style x:Key="RoundedPosButton" TargetType="{x:Type Button}"> <!-- Source code from https://gist.github.com/pocari/ef7778f1d67f568001e8 -->
             <Style.Setters>
                 <Setter Property="Template">
@@ -76,7 +138,7 @@
 
 
 
-        <!--
+    <!--
         Custom variables
     -->
         
@@ -86,5 +148,7 @@
         <SolidColorBrush x:Key="SelectablePrimary" Color="#C5D86D" />
         <SolidColorBrush x:Key="SelectableSecondary" Color="#EF6351" />
         <SolidColorBrush x:Key="SelectableLink" Color="#AFE0CE" />
+        <SolidColorBrush x:Key="HighlightBackground" Color="#555555" />
+        <SolidColorBrush x:Key="PressedBackground" Color="#777777" />
     </Application.Resources>
 </Application>
